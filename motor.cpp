@@ -9,9 +9,8 @@
 #include "motor.h"
 
 Motor :: Motor(unsigned char port1, unsigned char port2){			//Set port B nr. (PWM) og set port C nr.
-	if ( ( DDRB & (1<<port1) ) && ( DDRC & (1<<port2) ) )
-	{
-	}
+	if ( ( DDRB & (1<<port1) ) || ( DDRC & (1<<port2) ) )
+	{}
 	else
 	{
 		DDRB |= (1<<port1);
