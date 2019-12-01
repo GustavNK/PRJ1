@@ -6,13 +6,16 @@
  */ 
 
 #include <avr/io.h>
-
+#include "motor.h"
 
 int main(void)
 {
     /* Replace with your application code */
     while (1) 
     {
+		Motor motor(2,2);
+		int x = 1;
+		motor.setDirection(x);
     }
 }
 

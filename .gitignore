@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+Debug/PRJ1.srec
+Debug/PRJ1.lss
+Debug/PRJ1.hex
+Debug/PRJ1.elf
+Debug/PRJ1.eep
+Debug/PRJ1.map

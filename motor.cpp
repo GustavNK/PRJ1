@@ -9,9 +9,8 @@
 #include "motor.h"
 
 Motor :: Motor(unsigned char port1, unsigned char port2){			//Set port B nr. (PWM) og set port C nr.
-	if ( !( DDRB & (1<<port1) ) && !( DDRC & (1<<port2) ) )
+	if ( ( DDRB & (1<<port1) ) && ( DDRC & (1<<port2) ) )
 	{
-		
 	}
 	else
 	{
@@ -25,8 +24,9 @@ void Motor :: setSpeed(unsigned char speed){						//Set PWM on motor speed contr
 	
 }
 
-char motor :: getspeed(){
+char Motor :: getSpeed(){
 
+	return '0';
 }
 	  
 void Motor :: setDirection(unsigned char diriction){   // set direction of motor. Controlle H-bridge
@@ -35,5 +35,5 @@ void Motor :: setDirection(unsigned char diriction){   // set direction of motor
 }  
 
 char Motor :: getDirection(){
-	
+	return '0';
 }
