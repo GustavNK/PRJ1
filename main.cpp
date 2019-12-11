@@ -58,8 +58,7 @@ ISR(INT5_vect) {
 int main(void)
 {	
 		// Klargøring af porte
-		DDRE |= 0b00110000; // Port E er sat til input
-		PORTE |= 0b00110000; // Port E, ben 5 og 4, er sat til aktiv high
+		DDRE &= 0b11001111; // Port E er sat til input
 		DDRB = 0xFF; // Port B er sat til output
 		PORTB = 0x00; // Port B er sat til 0, da LED er aktiv low
 		

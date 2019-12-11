@@ -36,3 +36,10 @@ Debug/PRJ1.hex
 Debug/PRJ1.elf
 Debug/PRJ1.eep
 Debug/PRJ1.map
+*.eep
+*.elf
+*.lss
+*.map
+*.srec
+*.hex
+*.mk

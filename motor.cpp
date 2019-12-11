@@ -10,12 +10,12 @@
 
 #define speedPortReg DDRE
 #define speedPort PORTB
-#define dirPortReg DDRC
-#define dirPort PORTC
+#define dirPortReg DDRJ
+#define dirPort PORTJ
 
 Motor :: Motor(){
 	speedPin_ = 3;	//PE3(OC3A)
-	dirPin_ = 0;	//PC0
+	dirPin_ = 1;	//PJ1
 	speed_ = 0;		//0 speed
 	dir_ = 1;		//1 forward
 	
@@ -51,7 +51,7 @@ char Motor :: getSpeed() const{
 	  
 void Motor :: setDirection(unsigned char dir){
 	dir_ = dir;
-	dirPort |= (dir_ << dirPin_);
+	dirPort = (dir_ << dirPin_);
 }
 
 char Motor :: getDirection() const{
@@ -60,7 +60,7 @@ char Motor :: getDirection() const{
 
 void Motor :: stop(){
 	speedPort &= (0<<speedPin_);
-	TCCR1A = 0x00;
-	TCCR1B = 0x00;
-	OCR1A = 0;
+	TCCR3A = 0x00;
+	TCCR3B = 0x00;
+	OCR3A = 0;
 }
