@@ -10,13 +10,17 @@
 #define MOTORCONTROLLER_H_
 class Motor{
 public:
-	explicit Motor(unsigned char port1 = 4, unsigned char port2 = 0);   //Initiates motor driver, with port "port" in PortB
-	void setSpeed(unsigned char speed);	  //Set PWM on motor speed controller between 0-100%
-	char getSpeed();
-	void setDirection(unsigned char diriction);   // set direction of motor. Controlles H-bridge
-	char getDirection();
+	explicit Motor();   //Initiates motor driver  No arguments should be given  speed=PE3(OC3A) dir=PC0
+	void setSpeed(unsigned char speed);	  //Set PWM on motor speed controller between 0-255
+	char getSpeed() const;
+	void setDirection(unsigned char direction);   // set direction of motor. Controlles H-bridge
+	char getDirection() const;
+	void stop();	//de-initializ motor
 private:
 	unsigned char speed_;
-	unsigned char direction_;
+	unsigned char speedPin_;
+	unsigned char dir_;
+	unsigned char dirPin_;
+
 };
 #endif /* MOTORCONTROLLER_H_ */

@@ -5,34 +5,62 @@
  *  Author: Gustav
  */ 
 
-#include <avr/io.h>
 #include "motor.h"
+#include <avr/io.h>
 
-Motor :: Motor(unsigned char port1, unsigned char port2){			//Set port B nr. (PWM) og set port C nr.
-	if ( ( DDRB & (1<<port1) ) || ( DDRC & (1<<port2) ) )
-	{}
-	else
-	{
-		DDRB |= (1<<port1);
-		DDRC |= (1<<port2);
+#define speedPortReg DDRE
+#define speedPort PORTB
+#define dirPortReg DDRC
+#define dirPort PORTC
+
+Motor :: Motor(){
+	speedPin_ = 3;	//PE3(OC3A)
+	dirPin_ = 0;	//PC0
+	speed_ = 0;		//0 speed
+	dir_ = 1;		//1 forward
+	
+	// Setup PB5(OC1A) and PC0
+	speedPortReg |= (1<<speedPin_);
+	dirPortReg |= (1<<dirPin_);
+	
+	// Set to forward and 0 speed (Off)
+	setDirection(dir_);
+	setSpeed(speed_);
+}
+
+void Motor :: setSpeed(unsigned char s){	//Set PWM on motor speed controller between 0(off) - 255
+	//set new speed
+	if( 0 > s || 255 < s ){
+		speed_ = 0;							//set speed 0, if speed not correct
 	}
+	else {
+		speed_ = 65536/255 * s;				//convert 8bit speed to 16bit speed
+	}
+	
+	//Initiate PWM for OC1A
+	speedPortReg |= (1<<speedPin_);
+	TCCR3A |= 0b10000001;				//COM1A=10 non-inverting mode OC0A   WGM1A=0001 Non-fast PWM
+	TCCR3B |= 0b00000100;				//256*clk/prescaler    16000000/(256*2*256) = 122Hz  
+	//Update OCR
+	OCR3A = speed_;
 }
 
-void Motor :: setSpeed(unsigned char speed){						//Set PWM on motor speed controller between 0-100%
-	
-	
-}
-
-char Motor :: getSpeed(){
-
-	return '0';
+char Motor :: getSpeed() const{
+	return speed_;
 }
 	  
-void Motor :: setDirection(unsigned char diriction){   // set direction of motor. Controlle H-bridge
+void Motor :: setDirection(unsigned char dir){
+	dir_ = dir;
+	dirPort |= (dir_ << dirPin_);
+}
 
-	
-}  
+char Motor :: getDirection() const{
+	return dir_;
+}
 
-char Motor :: getDirection(){
-	return '0';
+void Motor :: stop(){
+	speedPort &= (0<<speedPin_);
+	TCCR1A = 0x00;
+	TCCR1B = 0x00;
+	OCR1A = 0;
 }
