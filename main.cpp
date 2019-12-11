@@ -23,7 +23,8 @@ cli() bruges til at lukke alle interrupts - dette sker, så kun 1 af sensorene vi
 */
 
 volatile unsigned char btnStatus; // btnStatus bliver sat som en global variable
-volatile unsigned char sensorCounter; // sensorCounter bliver sat som en global variable
+volatile unsigned char sensorStatus; // sensorCounter bliver sat som en global variable
+volatile signed char statusCounter;
 
 // Interrupt for knappen (btnStatus) er sat, så ved tryk på knap, vil sensoren blive aktiveret eller resat
 ISR(INT2_vect) {
@@ -36,22 +37,14 @@ ISR(INT2_vect) {
 // Interrupt for sensor (højre side) vil blive sat
 ISR(INT4_vect) {
 	
-	// sensorCounter incrementeres
-	sensorCounter++;
-	
-	// Alle interrupts lukkes
-	cli();
+	sensorStatus = statusCounter;
 	
 }
 
 // Interrupt for sensor (venstre side) vil blive sat
 ISR(INT5_vect) {
 	
-	// sensorCounter incrementeres
-	sensorCounter++;
-	
-	// Alle interrupts lukkes
-	cli();
+	sensorStatus = statusCounter;
 	
 }
 
@@ -66,7 +59,7 @@ int main(void)
 		EIMSK |= 0b00110100; // Aktivere INT2 (knap), INT4 (højre sensor) og INT5 (venstre sensor)
 		EICRA = 0b00100000; // Falling  edge af INT2 interrrupt generer interrupt request
 		EICRB = 0b00001111; // Rising edge af INT4 og INT5 genererer interrrupt request
-		
+		sei(); // Aktivere global interrupt
 		
 		InitUART(9600, 8, 0);
 		
@@ -77,8 +70,6 @@ int main(void)
 		reset();
 		playSource();
 		setVol(30);
-		
-		
 		//Klargør LED/lys
 		ledDriver led;
 		led.initLEDport();
@@ -89,9 +80,9 @@ int main(void)
 		/*
 		Alle variabler / funktioner / porte, vil blive sat, klar til start 
 		*/
-		signed char status = 0; // sensorStatus bestemmer bilens næste "case"
+		statusCounter = 0; // statusCounter bestemmer bilens næste "case"
 		btnStatus = 0; // KnapStatus styre om bilen skal gå i tomgang, køre eller lave et reset
-		sei(); // Aktivere global interrupt
+		PORTB = 0b00000100;
 		
 		// Her skal alt deinitialiseres!
 			
@@ -105,24 +96,27 @@ int main(void)
 		{
 			
 			// Sørger for, at nr knappen aktivere algoritmen (btnStatus går fra 0 til 1) - sensorCounter bliver yderliger aktiveret
-			if (btnStatus == 1 && status == 0) 
-				sensorCounter = 0;
+			if (btnStatus == 1 && statusCounter == 0) 
+				sensorStatus = 0;
 			
 			// Algoritmen køre næste trin når sensorCounter bliver lig med status
-			if (sensorCounter == status && btnStatus == 1) 
+			if (sensorStatus == statusCounter && btnStatus == 1) 
 			{
 				
 				// sensorStatus for en incrementeret værdi fra carControl, så den er klar til næste stafige
-				status = carControl(status, &carMotor, &led);
+				statusCounter = carControl(statusCounter, &carMotor, &led);
 
 			}
 			
 			// Når algoritmen har kørt alle trin, vil bilen blive resat, og klargøres til at køre igen. 
-			if (status == -1)
+			if (statusCounter == -1)
 				break;
 		}
-		
-	}
+		//Deinitialize
+		led.backLight(0);
+		led.frontLight(0);
+		reset();  //Reset sound
+PORTB = 0b00000100;	}
 	
 }
 
