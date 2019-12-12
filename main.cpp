@@ -75,7 +75,6 @@ int main(void)
 	
 	//Klargør LED/lys
 	ledDriver led;
-	led.initLED();
 
 	while (1)
 	{	

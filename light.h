@@ -13,11 +13,10 @@
 class ledDriver
 {
 	public:
+	ledDriver();
 	void initLED();
-	
 	void frontLight(unsigned char duty_cycle);
 	void backLight(unsigned char duty_cycle);
-	void breakLED(unsigned char duty_cycle);
 };
 
 

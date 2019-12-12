@@ -33,7 +33,6 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		
 		//Bil begynder at køre
 		case 0: 
-		
 			PORTB = 0b00000001;
 			
 			motor->setSpeed(255);
@@ -43,8 +42,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 			
 			status++;
 			break;
-		//reflexbrik 1 
-		case 1:
+		case 1: //reflexbrik 1
 			PORTB = 0b00000010;
 			//
 			playTrack(1);
@@ -86,7 +84,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 			playTrack(1);
 			motor->setSpeed(150);
 			
-			_delay_ms(SENSOR_DELAY); 
+			_delay_ms(SENSOR_DELAY);
 
 			status++;
 			break;
@@ -109,6 +107,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 7: //reflexbrik 6 igen - Lyd
 			PORTB = 0b10000000;
 			playTrack(1);
+			
 			_delay_ms(SENSOR_DELAY); 
 			
 			status++;  
