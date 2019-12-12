@@ -22,9 +22,10 @@ Interrupt for sensor (ISR(INT4_vect) og ISR(INT5_vect)) sat
 cli() bruges til at lukke alle interrupts - dette sker, så kun 1 af sensorene vil blive påvirket af reflexbrikkerne
 */
 
-volatile unsigned char btnStatus; // btnStatus bliver sat som en global variable
-volatile unsigned char sensorStatus; // sensorCounter bliver sat som en global variable
-volatile signed char statusCounter; // statusCounter bliver sat som global variable
+// Sætter globale variabler, til brug i interrupts
+volatile unsigned char btnStatus; 
+volatile unsigned char sensorStatus;
+volatile signed char statusCounter;
 
 // Interrupt for knappen (btnStatus) er sat, så ved tryk på knap, vil sensoren blive aktiveret eller resat
 ISR(INT2_vect) {
@@ -37,6 +38,7 @@ ISR(INT2_vect) {
 // Interrupt for sensor (højre side) vil blive sat
 ISR(INT4_vect) {
 	
+	// sensorStatus sættes til statusCounter, for at sætte næste case i carControl, til at køre ved INT4_vect (højre)
 	sensorStatus = statusCounter;
 	
 }
@@ -44,6 +46,7 @@ ISR(INT4_vect) {
 // Interrupt for sensor (venstre side) vil blive sat
 ISR(INT5_vect) {
 	
+	// sensorStatus sættes til statusCounter, for at sætte næste case i carControl, til at køre ved INT4_vect (venstre)
 	sensorStatus = statusCounter;
 	
 }
@@ -51,7 +54,7 @@ ISR(INT5_vect) {
 int main(void)
 {	
 		// Klargøring af porte
-		DDRE &= 0b11001111; // Port E er sat til input
+		DDRE &= 0b11001111; // Port E, pin 4 og 5 er sat til input
 		DDRB = 0xFF; // Port B er sat til output
 		PORTB = 0x00; // Port B er sat til 0, da LED er aktiv low
 		
@@ -61,15 +64,15 @@ int main(void)
 		EICRB = 0b00001111; // Rising edge af INT4 og INT5 genererer interrrupt request
 		sei(); // Aktivere global interrupt
 		
-		InitUART(9600, 8, 0);
-		
 		//Klargør motor
 		Motor carMotor;
 		
 		//Klargør SOMO/lyd
+		InitUART(9600, 8, 0);
 		reset();
 		playSource();
 		setVol(30);
+		
 		//Klargør LED/lys
 		ledDriver led;
 		led.initLEDport();
@@ -77,21 +80,16 @@ int main(void)
 
 	while (1)
 	{	
-		/*
-		Alle variabler / funktioner / porte, vil blive sat, klar til start 
-		*/
+		//Alle variabler / funktioner / porte, vil blive sat klar til start 
 		statusCounter = 0; // statusCounter bestemmer bilens næste "case"
 		btnStatus = 0; // KnapStatus styre om bilen skal gå i tomgang, køre eller lave et reset
 		PORTB = 0b00000100;
-		
-		// Her skal alt deinitialiseres!
-			
 		
 		/*
 		Ved følgende while loop, køre vore algoritme, der skal bestemme, hvilket stadie billen er i.
 		*/ 
 		
-		// Sørger for, at bilen forbliver i loopet, indtil reset knappet er aktiveret (btnStatus går fra 1 til 2)
+		// Sørger for, at koden forbliver i loopet, indtil reset knappet er aktiveret (btnStatus går fra 1 til 2) - med mindre alle cases er kørt i carControl
 		while (btnStatus < 2) 
 		{
 			
@@ -108,14 +106,14 @@ int main(void)
 
 			}
 			
-			// Når algoritmen har kørt alle trin, vil bilen blive resat, og klargøres til at køre igen. 
+			// Sørger for at koden forbliver i loopet, indtil alle cases i carControl er kørt - med mindre btnStatus > 2
 			if (statusCounter == -1)
 				break;
 		}
 		//Deinitialize
-		led.backLight(0);
-		led.frontLight(0);
-		reset();  //Reset sound
+		led.backLight(0); // Sluk lys
+		led.frontLight(0); // Sluk motor
+		reset();  // Reset sound
 PORTB = 0b00000100;	}
 	
 }
