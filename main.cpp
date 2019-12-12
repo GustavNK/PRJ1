@@ -53,30 +53,30 @@ ISR(INT5_vect) {
 
 int main(void)
 {	
-		// Klargøring af porte
-		DDRE &= 0b11001111; // Port E, pin 4 og 5 er sat til input
-		DDRB = 0xFF; // Port B er sat til output
-		PORTB = 0x00; // Port B er sat til 0, da LED er aktiv low
-		
-		// Interrupt enable og initiering
-		EIMSK |= 0b00110100; // Aktivere INT2 (knap), INT4 (højre sensor) og INT5 (venstre sensor)
-		EICRA = 0b00100000; // Falling  edge af INT2 interrrupt generer interrupt request
-		EICRB = 0b00001111; // Rising edge af INT4 og INT5 genererer interrrupt request
-		sei(); // Aktivere global interrupt
-		
-		//Klargør motor
-		Motor carMotor;
-		
-		//Klargør SOMO/lyd
-		InitUART(9600, 8, 0);
-		reset();
-		playSource();
-		setVol(30);
-		
-		//Klargør LED/lys
-		ledDriver led;
-		led.initLEDport();
-		led.initTimer4();
+	// Klargøring af porte
+	DDRE &= 0b11001111; // Port E, pin 4 og 5 er sat til input
+	DDRB = 0xFF; // Port B er sat til output
+	PORTB = 0x00; // Port B er sat til 0, da LED er aktiv low
+	
+	// Interrupt enable og initiering
+	EIMSK |= 0b00110100; // Aktivere INT2 (knap), INT4 (højre sensor) og INT5 (venstre sensor)
+	EICRA = 0b00100000; // Falling  edge af INT2 interrrupt generer interrupt request
+	EICRB = 0b00001111; // Rising edge af INT4 og INT5 genererer interrrupt request
+	sei(); // Aktivere global interrupt
+	
+	//Klargør motor
+	Motor carMotor;
+	
+	//Klargør SOMO/lyd
+	InitUART(9600, 8, 0);
+	reset();
+	playSource();
+	setVol(30);
+	
+	//Klargør LED/lys
+	ledDriver led;
+	led.initLEDport();
+	led.initTimer4();
 
 	while (1)
 	{	
@@ -110,11 +110,12 @@ int main(void)
 			if (statusCounter == -1)
 				break;
 		}
+		
 		//Deinitialize
 		led.backLight(0); // Sluk lys
 		led.frontLight(0); // Sluk motor
 		reset();  // Reset sound
-PORTB = 0b00000100;	}
+	}
 	
 }
 
