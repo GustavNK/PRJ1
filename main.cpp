@@ -84,6 +84,13 @@ int main(void)
 	ledDriver led;
 	led.initLED();
 	
+	for (char n = 0; n < 9; n++) {
+		PORTB = (1 << n);
+		_delay_ms(100);
+	}
+	
+	PORTB = 0xFF;
+	_delay_ms(200);
 	PORTB = 0b00000100; // Port B er sat til 0, ud over LED 2, der viser at bilen er klar til kørsel.
 
 	while (1)
@@ -121,18 +128,26 @@ int main(void)
 		//Deinitialize
 		if (statusCounter == -1 || btnStatus > 1)
 		{
-			PORTB = 0b00000100; // Port B er sat til 0, ud over LED 2, der viser at bilen er klar til kørsel.
+			PORTB = 0b00000000; // Port B er sat til 0, for at vise, den laver et reset
 			led.backLight(0); // Sluk "back light"
 			led.frontLight(0); // Sluk "front light"
 			carMotor.setSpeed(0); // Sluk motor
 			reset();  // Reset sound
+			PORTB = 0b00000100; // Port B er sat til 0, ud over LED 2, der viser at bilen er klar til kørsel.
 		}
 		
 		if (btnStatus == 0xFF) {
 			
-			PORTB = 0;
-			break;
+			for (char n = 0; n < 9; n++) {
+				PORTB = (1 << n);
+				_delay_ms(100);
+			}
 			
+			PORTB = 0xFF;
+			_delay_ms(200);
+			PORTB = 0;
+			
+			break;
 		}
 	}
 	
