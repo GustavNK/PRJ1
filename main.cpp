@@ -74,10 +74,9 @@ int main(void)
 	
 	//Klargør LED/lys
 	ledDriver led;
-	led.initLEDport();
-	led.initTimer4();
-	
+
 	PORTB = 0b00000100;; // Port B er sat til 0, ud over LED 2, der viser at bilen er klar til kørsel.
+	led.initLED();
 
 	while (1)
 	{	
