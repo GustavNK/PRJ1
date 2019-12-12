@@ -115,6 +115,7 @@ int main(void)
 		led.backLight(0); // Sluk lys
 		led.frontLight(0); // Sluk motor
 		reset();  // Reset sound
+		
 	}
 	
 }
