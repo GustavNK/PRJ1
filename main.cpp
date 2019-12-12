@@ -35,6 +35,14 @@ ISR(INT2_vect) {
 	
 }
 
+// Interrupt for knappen (btnStatus) er sat, så ved tryk på knap, vil koden afslutte
+ISR(INT3_vect) {
+	
+	// btnStatus incrementeres
+	btnStatus = 0xFF;
+	
+}
+
 // Interrupt for sensor (højre side) vil blive sat
 ISR(INT4_vect) {
 	
@@ -58,8 +66,8 @@ int main(void)
 	DDRB = 0xFF; // Port B er sat til output
 	
 	// Interrupt enable og initiering
-	EIMSK |= 0b00110100; // Aktivere INT2 (knap), INT4 (højre sensor) og INT5 (venstre sensor)
-	EICRA = 0b00100000; // Falling  edge af INT2 interrrupt generer interrupt request
+	EIMSK |= 0b00111100; // Aktivere INT2 (knap), INT4 (højre sensor) og INT5 (venstre sensor)
+	EICRA = 0b10100000; // Falling  edge af INT2 interrrupt generer interrupt request
 	EICRB = 0b00001111; // Rising edge af INT4 og INT5 genererer interrrupt request
 	sei(); // Aktivere global interrupt
 	
@@ -74,9 +82,9 @@ int main(void)
 	
 	//Klargør LED/lys
 	ledDriver led;
-
-	PORTB = 0b00000100;; // Port B er sat til 0, ud over LED 2, der viser at bilen er klar til kørsel.
 	led.initLED();
+	
+	PORTB = 0b00000100; // Port B er sat til 0, ud over LED 2, der viser at bilen er klar til kørsel.
 
 	while (1)
 	{	
@@ -111,12 +119,24 @@ int main(void)
 		}
 		
 		//Deinitialize
-		PORTB = 0b00000100;
-		led.backLight(0); // Sluk lys
-		led.frontLight(0); // Sluk motor
-		reset();  // Reset sound
+		if (statusCounter == -1 || btnStatus > 1)
+		{
+			PORTB = 0b00000100; // Port B er sat til 0, ud over LED 2, der viser at bilen er klar til kørsel.
+			led.backLight(0); // Sluk "back light"
+			led.frontLight(0); // Sluk "front light"
+			carMotor.setSpeed(0); // Sluk motor
+			reset();  // Reset sound
+		}
 		
+		if (btnStatus == 0xFF) {
+			
+			PORTB = 0;
+			break;
+			
+		}
 	}
+	
+	return 0;
 	
 }
 
