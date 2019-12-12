@@ -56,7 +56,6 @@ int main(void)
 	// Klargøring af porte
 	DDRE &= 0b11001111; // Port E, pin 4 og 5 er sat til input
 	DDRB = 0xFF; // Port B er sat til output
-	PORTB = 0x00; // Port B er sat til 0, da LED er aktiv low
 	
 	// Interrupt enable og initiering
 	EIMSK |= 0b00110100; // Aktivere INT2 (knap), INT4 (højre sensor) og INT5 (venstre sensor)
@@ -77,13 +76,14 @@ int main(void)
 	ledDriver led;
 	led.initLEDport();
 	led.initTimer4();
+	
+	PORTB = 0b00000100;; // Port B er sat til 0, ud over LED 2, der viser at bilen er klar til kørsel.
 
 	while (1)
 	{	
 		//Alle variabler / funktioner / porte, vil blive sat klar til start 
 		statusCounter = 0; // statusCounter bestemmer bilens næste "case"
 		btnStatus = 0; // KnapStatus styre om bilen skal gå i tomgang, køre eller lave et reset
-		PORTB = 0b00000100;
 		
 		/*
 		Ved følgende while loop, køre vore algoritme, der skal bestemme, hvilket stadie billen er i.
@@ -112,6 +112,7 @@ int main(void)
 		}
 		
 		//Deinitialize
+		PORTB = 0b00000100;
 		led.backLight(0); // Sluk lys
 		led.frontLight(0); // Sluk motor
 		reset();  // Reset sound
