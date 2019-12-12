@@ -13,8 +13,7 @@
 class ledDriver
 {
 	public:
-	void initLEDport();
-	void initTimer4();
+	void initLED();
 	
 	void frontLight(unsigned char duty_cycle);
 	void backLight(unsigned char duty_cycle);

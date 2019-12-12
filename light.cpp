@@ -24,17 +24,14 @@
 #define MAX_LED_NR 7
 #include "light.h"
 
-void ledDriver::initLEDport()
+void ledDriver::initLED()
 {
 	DDRH |= 0b00110000;  // Port b direction output
 	PORTH &= 0b11001111;   // Begin with turning off all pins
-}
-
-
-void ledDriver::initTimer4()
-{
+	
+	//INIT timer4
 	TCCR4A = 0b00111111;  // Fast PWM mode 10 bit, Enable A+B+C systemerne (OCR4A,B og C)
-						  // On compare match set OUTPUT til HIGH
+	// On compare match set OUTPUT til HIGH
 	TCCR4B = 0b00001001;  // no prescaler Fast PWM
 	TCCR4C = 0b00000000; // Normal port operation
 	//Default 0% duty cyle / Full off

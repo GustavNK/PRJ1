@@ -55,7 +55,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 			break;
 		case 2: //reflexbrik 2
 			PORTB = 0b00000100;
-			
+			playTrack(1);
 			motor->setSpeed(255);
 			
 			_delay_ms(SENSOR_DELAY); 
@@ -65,7 +65,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		
 		case 3: //reflexbrik 3
 			PORTB = 0b00001000;
-			
+			playTrack(1);
 			motor->setSpeed(180);
 			
 			_delay_ms(SENSOR_DELAY); 
@@ -75,7 +75,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		
 		case 4: //reflexbrik 4
 			PORTB = 0b00010000;
-		
+			playTrack(1);
 			
 			_delay_ms(SENSOR_DELAY); 
 
@@ -83,7 +83,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 			break;
 		case 5: //reflexbrik 5 - Siger lyd
 			PORTB = 0b00100000;
-			
+			playTrack(1);
 			motor->setSpeed(150);
 			
 			_delay_ms(SENSOR_DELAY); 
@@ -93,7 +93,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 			
 		case 6: //reflexbrik 6 - Stop / bak
 			PORTB = 0b01000000;
-			
+			playTrack(1);
 			motor->setSpeed(0);
 			_delay_ms(100);
 			motor->setDirection(0);
@@ -107,8 +107,8 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 			break;
 			
 		case 7: //reflexbrik 6 igen - Lyd
-		
 			PORTB = 0b10000000;
+			playTrack(1);
 			_delay_ms(SENSOR_DELAY); 
 			
 			status++;  
@@ -116,7 +116,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 			
 		case 8: //reflexbrik 5 igen - Køre frem igen
 			PORTB = 0b10000001;
-			
+			playTrack(1);
 			motor->setSpeed(0);
 			_delay_ms(100);
 			motor->setDirection(1);
@@ -132,7 +132,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 9: //reflexbrik 5 igen - Køre frem igen
 				
 			PORTB = 0b10000011;
-			
+			playTrack(1);
 			_delay_ms(SENSOR_DELAY);
 				
 			status++;
@@ -141,7 +141,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 10: //reflexbrik 6 igen - siger lyd
 			
 			PORTB = 0b10000111;
-			
+			playTrack(1);
 			_delay_ms(SENSOR_DELAY);
 			
 			status++;
@@ -149,7 +149,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		
 		case 11: //reflexbrik 7 - Bil stopper
 			PORTB = 0b10001111;
-			
+			playTrack(1);
 			motor->setSpeed(0);
 
 			status = -1;
