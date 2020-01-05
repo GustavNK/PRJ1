@@ -195,6 +195,12 @@
     <Compile Include="somo.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="startRestartStop.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="startRestartStop.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="uart.cpp">
       <SubType>compile</SubType>
     </Compile>

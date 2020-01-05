@@ -13,6 +13,7 @@
 #include "motor.h"
 #include "uart.h"
 #include "somo.h"
+#include "startRestartStop.h"
 
 /*
 Ved følgende kode, før main, bliver: 
@@ -26,6 +27,7 @@ cli() bruges til at lukke alle interrupts - dette sker, så kun 1 af sensorene vi
 volatile unsigned char btnStatus; 
 volatile unsigned char sensorStatus;
 volatile signed char statusCounter;
+volatile signed char quitBtn;
 
 // Interrupt for knappen (btnStatus) er sat, så ved tryk på knap, vil sensoren blive aktiveret eller resat
 ISR(INT2_vect) {
@@ -39,7 +41,7 @@ ISR(INT2_vect) {
 ISR(INT3_vect) {
 	
 	// btnStatus incrementeres
-	btnStatus = 0xFF;
+	quitBtn = -1;
 	
 }
 
@@ -75,29 +77,25 @@ int main(void)
 	Motor carMotor;
 	
 	//Klargør SOMO/lyd
-	InitUART(9600, 8, 0);
-	reset();
-	playSource();
-	setVol(30);
+	InitUART(9600, 8, 0);	PORTB = 170; //10101010
+	reset();				PORTB = 0;
+	playSource();			PORTB = 85; //01010101
+	setVol(30);				PORTB = 0;
+	_delay_ms(150);
 	
 	//Klargør LED/lys
 	ledDriver led;
 	led.initLED();
 	
-	for (char n = 0; n < 9; n++) {
-		PORTB = (1 << n);
-		_delay_ms(100);
-	}
+	// Start signal
 	
-	PORTB = 0xFF;
-	_delay_ms(200);
-	PORTB = 0b00000100; // Port B er sat til 0, ud over LED 2, der viser at bilen er klar til kørsel.
-
 	while (1)
 	{	
 		//Alle variabler / funktioner / porte, vil blive sat klar til start 
 		statusCounter = 0; // statusCounter bestemmer bilens næste "case"
 		btnStatus = 0; // KnapStatus styre om bilen skal gå i tomgang, køre eller lave et reset
+		
+		startBil();
 		
 		/*
 		Ved følgende while loop, køre vore algoritme, der skal bestemme, hvilket stadie billen er i.
@@ -121,37 +119,23 @@ int main(void)
 			}
 			
 			// Sørger for at koden forbliver i loopet, indtil alle cases i carControl er kørt - med mindre btnStatus > 2
-			if (statusCounter == -1)
+			if (statusCounter == -1 || quitBtn == -1)
 				break;
 		}
 		
-		//Deinitialize
+		//Deinitialize - restart bil
 		if (statusCounter == -1 || btnStatus > 1)
 		{
-			PORTB = 0b00000000; // Port B er sat til 0, for at vise, den laver et reset
-			led.backLight(0); // Sluk "back light"
-			led.frontLight(0); // Sluk "front light"
-			carMotor.setSpeed(0); // Sluk motor
-			reset();  // Reset sound
-			PORTB = 0b00000100; // Port B er sat til 0, ud over LED 2, der viser at bilen er klar til kørsel.
-		}
+			restartBil(&carMotor, &led);
+		}			
 		
-		if (btnStatus == 0xFF) {
-			
-			for (char n = 0; n < 9; n++) {
-				PORTB = (1 << n);
-				_delay_ms(100);
-			}
-			
-			PORTB = 0xFF;
-			_delay_ms(200);
-			PORTB = 0;
-			
+		// stop bil helt
+		else if (quitBtn == -1) {
+			restartBil(&carMotor, &led);
+			stop();
 			break;
 		}
 	}
-	
 	return 0;
-	
 }
 
