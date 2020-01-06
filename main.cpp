@@ -77,32 +77,34 @@ int main(void)
 	Motor carMotor;
 	
 	//Klargør SOMO/lyd
-	InitUART(9600, 8, 0);	PORTB = 170; //10101010
-	reset();				PORTB = 0;
-	playSource();			PORTB = 85; //01010101
-	setVol(30);				PORTB = 0;
+	InitUART(9600, 8, 0);	
+	PORTB = 170; //10101010
+	reset();				
+	PORTB = 0;
+	playSource();			
+	PORTB = 85; //01010101
+	setVol(30);				
+	PORTB = 0;
 	_delay_ms(150);
 	
 	//Klargør LED/lys
 	ledDriver led;
-	led.initLED();
-	
-	// Start signal
-	
-	while (1)
+
+	while(quitBtn != -1)
 	{	
 		//Alle variabler / funktioner / porte, vil blive sat klar til start 
 		statusCounter = 0; // statusCounter bestemmer bilens næste "case"
 		btnStatus = 0; // KnapStatus styre om bilen skal gå i tomgang, køre eller lave et reset
+		led.initLED();
 		
 		startBil();
 		
 		/*
-		Ved følgende while loop, køre vore algoritme, der skal bestemme, hvilket stadie billen er i.
+		Ved følgende while loop, køre vore algoritme, der skal bestemme, hvilket stadie bilen er i.
 		*/ 
 		
 		// Sørger for, at koden forbliver i loopet, indtil reset knappet er aktiveret (btnStatus går fra 1 til 2) - med mindre alle cases er kørt i carControl
-		while (btnStatus < 2) 
+		while (btnStatus < 2 && statusCounter != -1 && quitBtn != -1) 
 		{
 			
 			// Sørger for, at nr knappen aktivere algoritmen (btnStatus går fra 0 til 1) - sensorCounter bliver yderliger aktiveret
@@ -115,17 +117,12 @@ int main(void)
 				
 				// sensorStatus for en incrementeret værdi fra carControl, så den er klar til næste stafige
 				statusCounter = carControl(statusCounter, &carMotor, &led);
-
 			}
 			
-			// Sørger for at koden forbliver i loopet, indtil alle cases i carControl er kørt - med mindre btnStatus > 2
-			if (statusCounter == -1 || quitBtn == -1)
-				break;
 		}
 		
 		//Deinitialize - restart bil
-		if (statusCounter == -1 || btnStatus > 1)
-		{
+		if (statusCounter == -1 || btnStatus > 1) {
 			restartBil(&carMotor, &led);
 		}			
 		
@@ -133,7 +130,6 @@ int main(void)
 		else if (quitBtn == -1) {
 			restartBil(&carMotor, &led);
 			stop();
-			break;
 		}
 	}
 	return 0;
