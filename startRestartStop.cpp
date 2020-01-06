@@ -56,38 +56,25 @@ void restartBil (Motor* motor, ledDriver* led) {
 		_delay_ms(75);
 	}
 	
-	for (n = 0; n < 4; n++) {
-		switch (n) {
-			case 0:
-			led->backLight(0);		// Sluk "back light"
-			break;
-			
-			case 1:
-			led->frontLight(0);		// Sluk "front light"
-			break;
-			
-			case 2:
-			motor->setSpeed(0);		// Sluk motor
-			break;
-			
-			case 3:
-			for (i = 0, q = 170; i < 4; i++) {
-				if (i == 2) {
-					reset();
-				}
-				
-				PORTB = q;		_delay_ms(150);
-				q = ~q;
-				PORTB = 0;		_delay_ms(150);
-			}
-			_delay_ms(350);
-			break;
+	led->backLight(0);		// Sluk "back light"
+	led->frontLight(0);		// Sluk "front light"
+	motor->setSpeed(0);		// Sluk motor
+	
+	for (i = 0, q = 170; i < 4; i++) {
+		if (i == 2) {
+			reset();
 		}
+		
+		PORTB = q;		_delay_ms(150);
+		q = ~q;
+		PORTB = 0;		_delay_ms(150);
 	}
+	_delay_ms(350);
+
 }
 
 void stop() {
-	char n, i, h;
+	char n, i, h = 0;
 	
 	for (n = 255; n > 0; n--) {
 		PORTB = n;
