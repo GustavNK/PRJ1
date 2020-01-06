@@ -114,9 +114,8 @@ int main(void)
 			// Algoritmen køre næste trin når sensorCounter bliver lig med status
 			if (sensorStatus == statusCounter && btnStatus == 1) 
 			{
-				
-				// sensorStatus for en incrementeret værdi fra carControl, så den er klar til næste stafige
-				statusCounter = carControl(statusCounter, &carMotor, &led);
+				// sensorStatus for en incrementeret værdi fra carControl, så den er klar til næste stadige
+				statusCounter = carControl(sensorStatus, &carMotor, &led);
 			}
 			
 		}
