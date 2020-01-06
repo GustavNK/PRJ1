@@ -25,9 +25,9 @@ cli() bruges til at lukke alle interrupts - dette sker, så kun 1 af sensorene vi
 
 // Sætter globale variabler, til brug i interrupts
 volatile unsigned char btnStatus; 
+volatile signed char quitBtn;
 volatile unsigned char sensorStatus;
 volatile signed char statusCounter;
-volatile signed char quitBtn;
 
 // Interrupt for knappen (btnStatus) er sat, så ved tryk på knap, vil sensoren blive aktiveret eller resat
 ISR(INT2_vect) {
