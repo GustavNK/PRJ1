@@ -8,7 +8,9 @@
 // SENSOR_DELAY sørger for, at kun en sensor aktiveres, ved forbikørsel af reflexbrik
 #include "carControl.h"
 #define SENSOR_DELAY 500
-
+#define START_LYD 5
+#define REFLEKS_LYD 7
+#define SLUT_LYD 6
 /*
 Følgende funktion (carControl) bestemmer, udfra sensorCounter, hvad bilen skal gøre
 status stiger per sensorCOounter, så algoritmen køre så sensorCounter, først aktiveres ved næste interrupt - ved n = -1, vil algoritmen blive resat
@@ -35,7 +37,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 1:
 			PORTB = 0b00000010;
 			
-			playTrack(1);
+			playTrack(START_LYD);
 			
 			_delay_ms(SENSOR_DELAY); 
 
@@ -44,7 +46,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 2: //reflexbrik 2
 			PORTB = 0b00000100;
 			
-			playTrack(1);
+			playTrack(REFLEKS_LYD);
 			motor->setSpeed(180);
 			
 			_delay_ms(SENSOR_DELAY); 
@@ -55,7 +57,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 3: //reflexbrik 3
 			PORTB = 0b00001000;
 			
-			playTrack(1);
+			playTrack(REFLEKS_LYD);
 			
 			_delay_ms(SENSOR_DELAY); 
 
@@ -65,7 +67,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 4: //reflexbrik 4
 			PORTB = 0b00010000;
 			
-			playTrack(1);
+			playTrack(REFLEKS_LYD);
 			motor->setSpeed(255);
 			
 			_delay_ms(SENSOR_DELAY); 
@@ -75,7 +77,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 5: //reflexbrik 5 - Siger lyd
 			PORTB = 0b00100000;
 			
-			playTrack(1);
+			playTrack(REFLEKS_LYD);
 			motor->setSpeed(150);
 			
 			_delay_ms(SENSOR_DELAY); 
@@ -84,7 +86,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 6: //reflexbrik 6 - Stop / bak
 			PORTB = 0b01000000;
 	
-			playTrack(1);
+			playTrack(REFLEKS_LYD);
 			//Vend motor
 			motor->setSpeed(0);
 			_delay_ms(100);
@@ -106,7 +108,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 7: //reflexbrik 6 igen - Lyd
 			PORTB = 0b10000000;
 			
-			playTrack(1);
+			playTrack(REFLEKS_LYD);
 			
 			_delay_ms(SENSOR_DELAY); 
 			
@@ -116,7 +118,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 8: //reflexbrik 5 igen - Køre frem igen
 			PORTB = 0b10000001;
 			
-			playTrack(1);
+			playTrack(REFLEKS_LYD);
 			motor->setSpeed(0);
 			_delay_ms(100);
 			motor->setDirection(1);
@@ -135,7 +137,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 				
 			PORTB = 0b10000011;
 			
-			playTrack(1);
+			playTrack(REFLEKS_LYD);
 			_delay_ms(SENSOR_DELAY);
 				
 			status++;
@@ -145,7 +147,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 			
 			PORTB = 0b10000111;
 			
-			playTrack(1);
+			playTrack(REFLEKS_LYD);
 			_delay_ms(SENSOR_DELAY);
 			
 			status++;
@@ -154,7 +156,7 @@ char carControl(char status, Motor* motor, ledDriver* led) {
 		case 11: //reflexbrik 7 - Bil stopper
 			PORTB = 0b10001111;
 			
-			playTrack(1);
+			playTrack(SLUT_LYD);
 			motor->setSpeed(0);
 
 			status = -1;
