@@ -34,7 +34,6 @@ ISR(INT2_vect) {
 	
 	// btnStatus incrementeres
 	btnStatus++;
-	
 }
 
 // Interrupt for knappen (btnStatus) er sat, så ved tryk på knap, vil koden afslutte
@@ -47,18 +46,15 @@ ISR(INT3_vect) {
 
 // Interrupt for sensor (højre side) vil blive sat
 ISR(INT4_vect) {
-	
 	// sensorStatus sættes til statusCounter, for at sætte næste case i carControl, til at køre ved INT4_vect (højre)
 	sensorStatus = statusCounter;
-	
 }
 
 // Interrupt for sensor (venstre side) vil blive sat
 ISR(INT5_vect) {
 	
 	// sensorStatus sættes til statusCounter, for at sætte næste case i carControl, til at køre ved INT4_vect (venstre)
-	sensorStatus = statusCounter;
-	
+	sensorStatus = statusCounter;	
 }
 
 int main(void)

@@ -14,6 +14,7 @@
 #define dirPort PORTJ
 
 Motor :: Motor(){
+	//Set class variables to default
 	speedPin_ = 3;	//PE3(OC3A)
 	dirPin_ = 1;	//PJ1
 	speed_ = 0;		//0 speed
@@ -56,11 +57,4 @@ void Motor :: setDirection(unsigned char dir){
 
 char Motor :: getDirection() const{
 	return dir_;
-}
-
-void Motor :: stop(){
-	speedPort &= (0<<speedPin_);
-	TCCR3A = 0x00;
-	TCCR3B = 0x00;
-	OCR3A = 0;
 }
