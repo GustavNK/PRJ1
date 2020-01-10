@@ -15,7 +15,6 @@ public:
 	char getSpeed() const;
 	void setDirection(unsigned char direction);   // set direction of motor. Controlles H-bridge
 	char getDirection() const;
-	void stop();	//de-initializ motor
 private:
 	unsigned char speed_;
 	unsigned char speedPin_;
