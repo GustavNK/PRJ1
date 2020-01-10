@@ -12,5 +12,7 @@ motor.cpp
 
 somo.cpp
 
+startRestartStop.cpp
+
 uart.cpp
 
