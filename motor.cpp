@@ -51,7 +51,7 @@ char Motor :: getSpeed() const{
 }
 	  
 void Motor :: setDirection(unsigned char dir){
-	dir_ = dir;
+	dir_ = (dir == 0) ? 0 : 1;
 	dirPort = (dir_ << dirPin_);
 }
 

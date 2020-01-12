@@ -20,6 +20,5 @@ private:
 	unsigned char speedPin_;
 	unsigned char dir_;
 	unsigned char dirPin_;
-
 };
 #endif /* MOTORCONTROLLER_H_ */
