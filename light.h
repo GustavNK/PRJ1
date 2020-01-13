@@ -10,10 +10,10 @@
 #define __LIGHT_H__
 
 
-class ledDriver
+class Led
 {
 	public:
-	ledDriver();
+	Led();
 	void initLED();
 	void frontLight(unsigned char duty_cycle);
 	void backLight(unsigned char duty_cycle);

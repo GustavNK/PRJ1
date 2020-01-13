@@ -24,7 +24,7 @@
 #define MAX_LED_NR 7
 #include "light.h"
 
-ledDriver::ledDriver(){
+Led::Led(){
 		DDRH |= 0b00110000;  // Port b direction output
 		PORTH &= 0b11001111;   // Begin with turning off all pins
 		
@@ -38,7 +38,7 @@ ledDriver::ledDriver(){
 		OCR4C = 1023;
 }
 
-void ledDriver::initLED()
+void Led::initLED()
 {
 	DDRH |= 0b00110000;  // Port b direction output
 	PORTH &= 0b11001111;   // Begin with turning off all pins
@@ -53,7 +53,7 @@ void ledDriver::initLED()
 	OCR4C = 1023;
 }
 
-void ledDriver::backLight(unsigned char duty_cycle)
+void Led::backLight(unsigned char duty_cycle)
 {
 	// PH4
 	if (duty_cycle >= 1 && duty_cycle <= 100)
@@ -62,7 +62,7 @@ void ledDriver::backLight(unsigned char duty_cycle)
 	}
 }
 
-void ledDriver::frontLight(unsigned char duty_cycle)
+void Led::frontLight(unsigned char duty_cycle)
 {
 	// PH5
 	if (duty_cycle >= 1 && duty_cycle <= 100)

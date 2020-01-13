@@ -16,7 +16,7 @@
 #include "light.h"
 
 void startBil();
-void restartBil(Motor* motor, ledDriver* led);
+void restartBil(Motor* motor, Led* led);
 void stop();
 
 #endif /* STARTRESTARTEND_H_ */
