@@ -92,3 +92,18 @@ void stopBil() {
 	}
 	PORTB = 0;
 }
+
+void LEDCounter(char status) {
+	
+	if (status == 0)
+	PORTB = 1;
+	
+	else if (status < 8) 
+		PORTB = (1 << status);
+	
+	else if (status > 7){
+		PORTB = (1 << (status - 8));
+		PORTB |= (1 << (status - 4));
+	}
+		
+}	
