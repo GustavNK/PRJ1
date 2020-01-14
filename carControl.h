@@ -16,6 +16,6 @@
 #include "motor.h"
 #include "light.h"
 
-char carControl(char sensorCounter, Motor* motor, ledDriver* led);
+char carControl(char sensorCounter, Motor* motor, Led* led);
 
 #endif /* CARCONTROL_H_ */

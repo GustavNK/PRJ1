@@ -84,7 +84,7 @@ int main(void)
 	_delay_ms(150);
 	
 	//Klargør LED/lys
-	ledDriver led;
+	Led led;
 
 	while(quitBtn != -1)
 	{	

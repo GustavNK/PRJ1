@@ -30,13 +30,12 @@ void startBil() {
 }
 
 void restartBil (Motor* motor, ledDriver* led) {
+	char n, i, h, q;
+	DDRB = 0;
 	
 	led->backLight(0);		// Sluk "back light"
 	led->frontLight(0);		// Sluk "front light"
 	motor->setSpeed(0);		// Sluk motor
-	
-	char n, i, h, q;
-	DDRB = 0;
 	
 	for (n = 0, i = 0, h = 0; n < 36 ; n++ && i++) {
 

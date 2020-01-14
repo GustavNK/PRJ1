@@ -46,7 +46,7 @@ void Motor :: setSpeed(unsigned char s){	//Set PWM on motor speed controller bet
 	OCR3A = speed_;
 }
 
-char Motor :: getSpeed() const{
+unsigned char Motor :: getSpeed() const{
 	return speed_;
 }
 	  
@@ -55,6 +55,6 @@ void Motor :: setDirection(unsigned char dir){
 	dirPort = (dir_ << dirPin_);
 }
 
-char Motor :: getDirection() const{
+unsigned char Motor :: getDirection() const{
 	return dir_;
 }

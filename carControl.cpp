@@ -18,7 +18,7 @@ status stiger per sensorCOounter, så algoritmen køre så sensorCounter, først
 sei bruges til at åbne alle global interrupts, siden vores sensor interrupts bliver lukket ved sensor interrupt
 */
 
-char carControl(char status, Motor* motor, ledDriver* led) {
+char carControl(char status, Motor* motor, Led* led) {
 	
 	switch(status)
 	{
