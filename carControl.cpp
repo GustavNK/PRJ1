@@ -129,13 +129,14 @@ char carControl(char status, Motor* motor, Led* led) {
 		
 	}
 	
-	status++;
+	//_delay_ms(SENSOR_DELAY);
 	
 	if (status == 12)
 		status = -1;
 		
-	_delay_ms(SENSOR_DELAY);
-	
+	else
+		status++;
+		
 	return status;
 		
 }
