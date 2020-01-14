@@ -73,7 +73,7 @@ void restartBil (Motor* motor, Led* led) {
 
 }
 
-void stop() {
+void stopBil() {
 	char n, i, h = 0;
 	
 	for (n = 255; n > 0; n--) {

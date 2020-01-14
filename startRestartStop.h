@@ -17,6 +17,6 @@
 
 void startBil();
 void restartBil(Motor* motor, Led* led);
-void stop();
+void stopBil();
 
 #endif /* STARTRESTARTEND_H_ */

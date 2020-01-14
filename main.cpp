@@ -122,7 +122,7 @@ int main(void)
 			
 			// stop bil helt
 			if (quitBtn == -1)
-				stop();
+				stopBil();
 		}			
 		
 	}
