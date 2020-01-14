@@ -29,7 +29,7 @@ void startBil() {
 	
 }
 
-void restartBil (Motor* motor, ledDriver* led) {
+void restartBil (Motor* motor, Led* led) {
 	char n, i, h, q;
 	DDRB = 0;
 	

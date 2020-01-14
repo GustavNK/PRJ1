@@ -116,16 +116,15 @@ int main(void)
 			
 		}
 		
-		//Deinitialize - restart bil
-		if (statusCounter == -1 || btnStatus > 1) {
+		// Deinitialize - restart bil
+		if (statusCounter == -1 || btnStatus > 1 || quitBtn == -1) {
 			restartBil(&carMotor, &led);
+			
+			// stop bil helt
+			if (quitBtn == -1)
+				stop();
 		}			
 		
-		// stop bil helt
-		else if (quitBtn == -1) {
-			restartBil(&carMotor, &led);
-			stop();
-		}
 	}
 	return 0;
 }
