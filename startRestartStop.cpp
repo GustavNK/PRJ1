@@ -74,22 +74,24 @@ void restartBil (Motor* motor, Led* led) {
 }
 
 void stopBil() {
-	char n, i, h = 0;
+	char n, i= 0;
 	
-	for (n = 255; n > 0; n--) {
-		PORTB = n;
-		i = 0; h += 1;
-		do {
-			_delay_ms(1);
-			i++;
-			
-		} while (i != h);
+	
+	for (n = 0; n < 44; n++ && i++) {
 		
-		if (h == 128) {
-			h = 0;	
-		}
-				
+		PORTB = (1 << i);
+		PORTB |= (1 << (7 - i));
+		
+		_delay_ms(75);
+		
+		if (i == 7)
+			i = 0;
+			
+		else if (i == 3)
+			i++;	
+					
 	}
+	
 	PORTB = 0;
 }
 
