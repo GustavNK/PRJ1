@@ -31,7 +31,7 @@ char carControl(char status, Motor* motor, Led* led) {
 			motor->setDirection(1);
 			motor->setSpeed(180);
 			led->frontLight(100);
-			led->backLight(30);
+			led->backLight(15);
 			break;
 			
 		case 1: //reflexbrik 1
@@ -69,7 +69,7 @@ char carControl(char status, Motor* motor, Led* led) {
 			motor->setSpeed(0);
 			_delay_ms(100);
 			motor->setDirection(0);
-			led->backLight(100);
+			led->backLight(70);
 			_delay_ms(100);
 			//stop
 			motor->setSpeed(180);
@@ -90,7 +90,7 @@ char carControl(char status, Motor* motor, Led* led) {
 			motor->setSpeed(0);
 			_delay_ms(100);
 			motor->setDirection(1);
-			led->backLight(30);
+			led->backLight(15);
 			_delay_ms(100);
 			motor->setSpeed(150);
 			_delay_ms(200);
