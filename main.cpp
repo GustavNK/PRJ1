@@ -74,14 +74,9 @@ int main(void)
 	
 	//Klargør SOMO/lyd
 	InitUART(9600, 8, 0);	
-	PORTB = 170; //10101010
 	reset();				
-	PORTB = 0;
 	playSource();			
-	PORTB = 85; //01010101
 	setVol(30);				
-	PORTB = 0;
-	_delay_ms(150);
 	
 	//Klargør LED/lys
 	Led led;
@@ -117,6 +112,7 @@ int main(void)
 		}
 		
 		// Deinitialize - restart bil
+		// if sætning, så vi sikre os restart, kun ved de specifikke betingelser 
 		if (statusCounter == -1 || btnStatus > 1 || quitBtn == -1) {
 			restartBil(&carMotor, &led);
 			

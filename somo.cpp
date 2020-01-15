@@ -16,7 +16,6 @@ void playSource(){
 	SendChar(0xFF);
 	SendChar(0xF5);
 	SendChar(0xEF);
-	_delay_ms(1000);
 }
 
 void playTrack(unsigned char tracknr){
@@ -39,7 +38,6 @@ void reset(){
 	SendChar(0xFF);
 	SendChar(0xF4);
 	SendChar(0xEF);
-	_delay_ms(1000);
 }
 
 void setVol(unsigned char vol){
@@ -51,5 +49,4 @@ void setVol(unsigned char vol){
 	SendChar(0xFF);
 	SendChar(0xF9-vol);
 	SendChar(0xEF);
-	_delay_ms(1000);
 }

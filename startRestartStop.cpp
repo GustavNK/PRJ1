@@ -30,12 +30,13 @@ void startBil() {
 }
 
 void restartBil (Motor* motor, Led* led) {
-	char n, i, h, q;
+	char n, i, h/*, q*/;
 	DDRB = 0;
 	
 	led->backLight(0);		// Sluk "back light"
 	led->frontLight(0);		// Sluk "front light"
 	motor->setSpeed(0);		// Sluk motor
+	reset();				// Reset lyd
 	
 	for (n = 0, i = 0, h = 0; n < 36 ; n++ && i++) {
 
@@ -56,11 +57,10 @@ void restartBil (Motor* motor, Led* led) {
 			h++;
 			i = 0;
 		}
-		
-		_delay_ms(75);
+		_delay_ms(100);
 	}
 	
-	for (i = 0, q = 170; i < 4; i++) {
+	/*for (i = 0, q = 170; i < 4; i++) {
 		if (i == 2) {
 			reset();
 		}
@@ -68,9 +68,7 @@ void restartBil (Motor* motor, Led* led) {
 		PORTB = q;		_delay_ms(150);
 		q = ~q;
 		PORTB = 0;		_delay_ms(150);
-	}
-	_delay_ms(350);
-
+	}*/
 }
 
 void stopBil() {
@@ -82,7 +80,7 @@ void stopBil() {
 		PORTB = (1 << i);
 		PORTB |= (1 << (7 - i));
 		
-		_delay_ms(75);
+		_delay_ms(150);
 		
 		if (i == 7)
 			i = 0;
@@ -92,6 +90,8 @@ void stopBil() {
 					
 	}
 	
+	PORTB = 0xFF;
+	_delay_ms(500);
 	PORTB = 0;
 }
 
