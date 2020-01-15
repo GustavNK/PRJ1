@@ -60,6 +60,10 @@ void Led::backLight(unsigned char duty_cycle)
 	{
 		OCR4B = (1023/100)*(100-duty_cycle);   // Dutycycle * TOP = OCRn
 	}
+
+	else if (duty_cycle == 0)
+	OCR4C = 1023;
+	
 }
 
 void Led::frontLight(unsigned char duty_cycle)
@@ -69,4 +73,8 @@ void Led::frontLight(unsigned char duty_cycle)
 	{
 		OCR4C = (1023/100)*(100-duty_cycle);  ;  // Dutycycle * TOP = OCRn
 	}
+	
+	else if (duty_cycle == 0)
+		OCR4C = 1023;
+	
 }

@@ -32,7 +32,7 @@ void startBil() {
 void restartBil (Motor* motor, Led* led) {
 	char n, i, h/*, q*/;
 	DDRB = 0;
-	
+		
 	led->backLight(0);		// Sluk "back light"
 	led->frontLight(0);		// Sluk "front light"
 	motor->setSpeed(0);		// Sluk motor
@@ -58,6 +58,7 @@ void restartBil (Motor* motor, Led* led) {
 			i = 0;
 		}
 		_delay_ms(100);
+				
 	}
 	
 	/*for (i = 0, q = 170; i < 4; i++) {
@@ -107,5 +108,5 @@ void LEDCounter(char status) {
 		PORTB = (1 << (status - 8));
 		PORTB |= (1 << (status - 4));
 	}
-		
+			
 }	
