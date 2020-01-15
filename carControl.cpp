@@ -29,7 +29,7 @@ char carControl(char status, Motor* motor, Led* led) {
 			
 			playTrack(START_LYD);
 			motor->setDirection(1);
-			motor->setSpeed(180);
+			motor->setSpeed(140);
 			led->frontLight(100);
 			led->backLight(15);
 			break;
@@ -37,29 +37,31 @@ char carControl(char status, Motor* motor, Led* led) {
 		case 1: //reflexbrik 1
 			
 			playTrack(REFLEKS_LYD1);
+			motor->setSpeed(220);
 			break;
-			
+		//Before Hill
 		case 2: //reflexbrik 2
 			
 			playTrack(REFLEKS_LYD2);
-			//motor->setSpeed(180);
+			motor->setSpeed(230);
 			break;
-		
+		//On hill
 		case 3: //reflexbrik 3
 			
 			playTrack(REFLEKS_LYD1);
+			motor->setSpeed(100);
 			break;
-		
+		//After hill
 		case 4: //reflexbrik 4
 			
 			playTrack(REFLEKS_LYD2);
-			//motor->setSpeed(255);
+			motor->setSpeed(255);
 			break;
 			
 		case 5: //reflexbrik 5 - Siger lyd
 			
 			playTrack(REFLEKS_LYD1);
-			//motor->setSpeed(150);
+			motor->setSpeed(110);
 			break;
 			
 		case 6: //reflexbrik 6 - Stop / bak
@@ -67,21 +69,17 @@ char carControl(char status, Motor* motor, Led* led) {
 			playTrack(REFLEKS_LYD2);
 			//Vend motor
 			motor->setSpeed(0);
-			_delay_ms(100);
+			_delay_ms(400);
 			motor->setDirection(0);
 			led->backLight(70);
-			_delay_ms(100);
 			//stop
-			motor->setSpeed(180);
-			_delay_ms(200);
-			motor->setSpeed(0);
-			_delay_ms(800);
-			motor->setSpeed(200);
+			motor->setSpeed(150);
 			break;
 			
 		case 7: //reflexbrik 6 igen - Lyd
 			
 			playTrack(REFLEKS_LYD1);
+			motor->setSpeed(110);
 			break;
 			
 		case 8: //reflexbrik 5 igen - Køre frem igen
@@ -91,20 +89,19 @@ char carControl(char status, Motor* motor, Led* led) {
 			_delay_ms(100);
 			motor->setDirection(1);
 			led->backLight(15);
-			_delay_ms(100);
-			motor->setSpeed(150);
-			_delay_ms(200);
+			motor->setSpeed(140);
 			break;
 			
 		case 9: //reflexbrik 5 igen - Køre frem igen
 				
-			motor->setSpeed(255);
+			motor->setSpeed(240);
 			playTrack(REFLEKS_LYD1);
 			break;
 		
 		case 10: //reflexbrik 6 igen - siger lyd
 						
 			playTrack(REFLEKS_LYD2);
+			motor->setSpeed(200);
 			break;
 		
 		case 11: //reflexbrik 7 - Bil stopper
@@ -117,8 +114,10 @@ char carControl(char status, Motor* motor, Led* led) {
 	
 	_delay_ms(SENSOR_DELAY);
 	
-	if (status == 12)
+	if (status == 11) {
 		status = -1;
+		_delay_ms(7500);
+	}
 		
 	else
 		status++;
