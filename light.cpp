@@ -62,7 +62,7 @@ void Led::backLight(unsigned char duty_cycle)
 	}
 
 	else if (duty_cycle == 0)
-	OCR4C = 1023;
+	OCR4B = 1023;
 	
 }
 
