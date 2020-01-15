@@ -13,7 +13,7 @@
 #define REFLEKS_LYD2 3
 #define SLUT_LYD 4
 /*
-Følgende funktion (carControl) bestemmer, ved at main.cpp sender sensorStatus vidre, som bestemmer hvilken case der skal køres
+Følgende funktion (carControl) bestemmer, ved at main() sender sensorStatus videre, som bestemmer hvilken case der skal køres
 Algoritmen for sensorCounter til at incrementere efter case. Ved næste interrupt i main.cpp, vil carControl blive aktiveret, nu med den nye sensorStatus værdi.
 */
 
