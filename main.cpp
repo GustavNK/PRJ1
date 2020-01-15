@@ -15,13 +15,6 @@
 #include "somo.h"
 #include "startRestartStop.h"
 
-/*
-Ved følgende kode, før main, bliver: 
-Vores globale variabler (sensorCounter og btnStatus) bliver sat
-Interrupt for knap (ISR(INT2_vect)) sat
-Interrupt for sensor (ISR(INT4_vect) og ISR(INT5_vect)) sat
-cli() bruges til at lukke alle interrupts - dette sker, så kun 1 af sensorene vil blive påvirket af reflexbrikkerne
-*/
 
 // Sætter globale variabler, til brug i interrupts
 volatile unsigned char btnStatus; 
@@ -29,45 +22,39 @@ volatile signed char quitBtn;
 volatile unsigned char sensorStatus;
 volatile signed char statusCounter;
 
-// Interrupt for knappen (btnStatus) er sat, så ved tryk på knap, vil sensoren blive aktiveret eller resat
-ISR(INT2_vect) {
-	
-	// btnStatus incrementeres
+//INT2_vect og INT3_vect aktiveres af SW2 og SW3 på arduino shield
+ISR(INT2_vect) 
+{
 	btnStatus++;
 }
 
-// Interrupt for knappen (btnStatus) er sat, så ved tryk på knap, vil koden afslutte
-ISR(INT3_vect) {
-	
-	// btnStatus incrementeres
+ISR(INT3_vect) 
+{
 	quitBtn = -1;
-	
 }
 
-// Interrupt for sensor (højre side) vil blive sat
-ISR(INT4_vect) {
-	// sensorStatus sættes til statusCounter, for at sætte næste case i carControl, til at køre ved INT4_vect (højre)
+// INT4_vect og INT5_vect aktiveres af venstre og højre sensor
+ISR(INT4_vect) 
+{
 	sensorStatus = statusCounter;
 }
 
-// Interrupt for sensor (venstre side) vil blive sat
-ISR(INT5_vect) {
-	
-	// sensorStatus sættes til statusCounter, for at sætte næste case i carControl, til at køre ved INT4_vect (venstre)
+ISR(INT5_vect) 
+{	
 	sensorStatus = statusCounter;	
 }
 
 int main(void)
 {	
 	// Klargøring af porte
-	DDRE &= 0b11001111; // Port E, pin 4 og 5 er sat til input
+	DDRE &= 0b11001111; // Port E, pin 4 og 5 er input
 	DDRB = 0xFF; // Port B er sat til output
 	
 	// Interrupt enable og initiering
-	EIMSK |= 0b00111100; // Aktivere INT2 (knap), INT4 (højre sensor) og INT5 (venstre sensor)
-	EICRA = 0b10100000; // Falling  edge af INT2 interrrupt generer interrupt request
-	EICRB = 0b00001111; // Rising edge af INT4 og INT5 genererer interrrupt request
-	sei(); // Aktivere global interrupt
+	EIMSK |= 0b00111100; // INT2, INT3, INT4 og INT5 interrupt enable
+	EICRA |= 0b11110000; // Rising edge af INT2 og INT3 genererer interrupt request
+	EICRB |= 0b00001111; // Rising edge af INT4 og INT5 genererer interrupt request
+	sei();	// global interrupt enable
 	
 	//Klargør motor
 	Motor carMotor;
@@ -83,29 +70,30 @@ int main(void)
 
 	while(quitBtn != -1)
 	{	
-		//Alle variabler / funktioner / porte, vil blive sat klar til start 
-		statusCounter = 0; // statusCounter bestemmer bilens næste "case"
-		btnStatus = 0; // KnapStatus styre om bilen skal gå i tomgang, køre eller lave et reset
-		led.initLED();
+		// Variable og funktioner klargøres
+		statusCounter = 0; // statusCounter bestemmer bilens 'case'
+		btnStatus = 0; // KnapStatus styrer om bilen skal gå i tomgang, køre eller lave et reset
 		
+		led.initLED();
+	
 		startBil();
 		
 		/*
-		Ved følgende while loop, køre vore algoritme, der skal bestemme, hvilket stadie bilen er i.
+		Ved følgende while loop indeholder algoritmen, der bestemmer, hvilken case bilen er i.
 		*/ 
 		
 		// Sørger for, at koden forbliver i loopet, indtil reset knappet er aktiveret (btnStatus går fra 1 til 2) - med mindre alle cases er kørt i carControl
 		while (btnStatus < 2 && statusCounter != -1 && quitBtn != -1) 
 		{
 			
-			// Sørger for, at nr knappen aktivere algoritmen (btnStatus går fra 0 til 1) - sensorCounter bliver yderliger aktiveret
+			// Sørger for, at SW2 aktiverer algoritmen (btnStatus går fra 0 til 1) - sensorCounter bliver reinitieret
 			if (btnStatus == 1 && statusCounter == 0) 
 				sensorStatus = 0;
 			
-			// Algoritmen køre næste trin når sensorCounter bliver lig med status
+			// Algoritmen køre næste 'case' når sensorCounter bliver lig med statusCounter
 			if (sensorStatus == statusCounter && btnStatus == 1) 
 			{
-				// sensorStatus for en incrementeret værdi fra carControl, så den er klar til næste stadige
+				// sensorStatus får en incrementeret værdi fra carControl, så næste stadie køres
 				statusCounter = carControl(sensorStatus, &carMotor, &led);
 			}
 			
@@ -116,7 +104,7 @@ int main(void)
 		if (statusCounter == -1 || btnStatus > 1 || quitBtn == -1) {
 			restartBil(&carMotor, &led);
 			
-			// stop bil helt
+			// afslutter program
 			if (quitBtn == -1)
 				stopBil();
 				
