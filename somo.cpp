@@ -41,10 +41,13 @@ void reset(){
 }
 
 void setVol(unsigned char vol){
+	if(vol < 0x01 || vol > 0x1E){ // Checks if vol is inside acceptable range
+		vol = 5; // standard value
+	}
 	SendChar(0x7E);
 	SendChar(0x06);
 	SendChar(0x00);
-	SendChar(0x00);
+	SendChar(0x00);	
 	SendChar(vol);
 	SendChar(0xFF);
 	SendChar(0xF9-vol);

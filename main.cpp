@@ -63,7 +63,7 @@ int main(void)
 	InitUART(9600, 8, 0);	
 	reset();				
 	playSource();			
-	setVol(30);				
+	setVol(0x1E);				
 	
 	//Klargør LED/lys
 	Led led;
