@@ -16,7 +16,7 @@ Led::Led(){
 		PORTH &= 0b11001111;   // Begin with turning off all pins
 		
 		//INIT timer4
-		TCCR4A = 0b00111111;  // Fast PWM mode 10 bit, Enable A+B+C systemerne (OCR4A,B og C)
+		TCCR4A = 0b00111111;  // Fast PWM mode 10 bit, Enable B+C systemerne (OCR4A,B og C)
 		// On compare match set OUTPUT til HIGH
 		TCCR4B = 0b00001001;  // no prescaler Fast PWM
 		TCCR4C = 0b00000000; // Normal port operation
@@ -31,7 +31,7 @@ void Led::initLED()
 	PORTH &= 0b11001111;   // Begin with turning off all pins
 	
 	//INIT timer4
-	TCCR4A = 0b00111111;  // Fast PWM mode 10 bit, Enable A+B+C systemerne (OCR4A,B og C)
+	TCCR4A = 0b00111111;  // Fast PWM mode 10 bit, Enable B+C systemerne (OCR4A,B og C)
 	// On compare match set OUTPUT til HIGH
 	TCCR4B = 0b00001001;  // no prescaler Fast PWM
 	TCCR4C = 0b00000000; // Normal port operation
