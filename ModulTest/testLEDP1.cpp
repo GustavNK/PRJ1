@@ -20,8 +20,8 @@ int main()
 	while (1)
 	{ 
 
-		frontLight.frontLight(70);
-		backLight.backLight(70);
+		frontLight.frontLight(100);
+		backLight.backLight(100);
 		_delay_ms(500);
 		frontLight.frontLight(0);
 		backLight.backLight(20);
