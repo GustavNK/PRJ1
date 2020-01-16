@@ -2,7 +2,7 @@
 FILENAME	: Motor.cpp
 CREATED		: 28-10-2019 12:07:24
 AUTHOR		: Gustav
-DESCR.		: Controlls the direction and speed of the brushmotor
+DESCR.		: Controls the direction and speed of the brush motor
 ==========================================================================*/
 #include "motor.h"
 #include <avr/io.h>
