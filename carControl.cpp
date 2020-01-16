@@ -61,7 +61,7 @@ char carControl(char status, Motor* motor, Led* led) {
 		case 5: //reflexbrik 5 - Siger lyd
 			
 			playTrack(REFLEKS_LYD1);
-			motor->setSpeed(110);
+			motor->setSpeed(80);
 			break;
 			
 		case 6: //reflexbrik 6 - Stop / bak
@@ -69,7 +69,7 @@ char carControl(char status, Motor* motor, Led* led) {
 			playTrack(REFLEKS_LYD2);
 			//Vend motor
 			motor->setSpeed(0);
-			_delay_ms(400);
+			_delay_ms(1200);
 			motor->setDirection(0);
 			led->backLight(70);
 			//stop
@@ -79,17 +79,19 @@ char carControl(char status, Motor* motor, Led* led) {
 		case 7: //reflexbrik 6 igen - Lyd
 			
 			playTrack(REFLEKS_LYD1);
-			motor->setSpeed(110);
+			motor->setSpeed(80);
 			break;
 			
 		case 8: //reflexbrik 5 igen - Køre frem igen
 			
 			playTrack(REFLEKS_LYD2);
+			motor->setSpeed(40);
+			_delay_ms(300);
 			motor->setSpeed(0);
-			_delay_ms(100);
+			_delay_ms(400);
 			motor->setDirection(1);
 			led->backLight(15);
-			motor->setSpeed(140);
+			motor->setSpeed(80);
 			break;
 			
 		case 9: //reflexbrik 5 igen - Køre frem igen
