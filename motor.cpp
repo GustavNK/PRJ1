@@ -2,7 +2,7 @@
 FILENAME	: Motor.cpp
 CREATED		: 28-10-2019 12:07:24
 AUTHOR		: Gustav
-DESCR.		: Controlls the direction and speed of the brushmotor.
+DESCR.		: Controlls the direction and speed of the brushmotor
 ==========================================================================*/
 #include "motor.h"
 #include <avr/io.h>
@@ -17,8 +17,8 @@ Motor :: Motor()
 	//Set class variables to default
 	speedPin_ = 3;	//PE3(OC3A)
 	dirPin_ = 1;	//PJ1
-	speed_ = 0;		//0 speed
-	dir_ = 1;		//1 forward
+	speed_ = 0;		//0 == speed
+	dir_ = 1;		//1 == forward
 	
 	// Setup PB5(OC1A) and PC0
 	speedPortReg |= (1<<speedPin_);

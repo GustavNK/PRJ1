@@ -1,7 +1,8 @@
 /*========================================================================
 FILENAME	: Motor.h
 CREATED		: 28-10-2019 12:06:50
-AUTHOR		: Deceleration of motor controller 
+AUTHOR		: Gustav
+DESCR.		: Deceleration of motor controller
 ==========================================================================*/
 #ifndef MOTORCONTROLLER_H_
 #define MOTORCONTROLLER_H_
