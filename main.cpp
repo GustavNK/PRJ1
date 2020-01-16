@@ -2,7 +2,7 @@
 FILENAME	: main.cpp
 CREATED		: 28-10-2019 11:48:57
 AUTHOR		: Andreas og Anders
-DESCR.		: <Description of file contents>
+DESCR.		: Main algorithm
 ==========================================================================*/
 #define F_CPU 16000000
 #include <avr/io.h>
