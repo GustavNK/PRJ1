@@ -61,8 +61,7 @@ int main(void)
 	InitUART(9600, 8, 0);
 	reset();				
 	playSource();
-	_delay_ms(300);
-	setVol(0x1E);	
+	setVol(0x1D);
 	
 	while(quitBtn != -1)
 	{	
