@@ -15,10 +15,10 @@ DESCR.		: <Description of file contents>
 #include "startRestartStop.h"
 
 // Sætter globale variabler, til brug i interrupts
-volatile unsigned char btnStatus; 
-volatile signed char quitBtn;
-volatile unsigned char sensorStatus;
-volatile signed char statusCounter;
+volatile unsigned char btnStatus; // btnStatus styrer om bilen skal gå i tomgang, køre eller lave et reset
+volatile signed char quitBtn;// quitBtn terminere programmet ved quitBtn = -1
+volatile unsigned char sensorStatus; // bestemer stadie af programmet
+volatile signed char statusCounter; // tæller hvor mange 'cases' der er blevet kørt
 
 //INT2_vect og INT3_vect aktiveres af SW2 og SW3 på arduino shield
 ISR(INT2_vect)
@@ -45,8 +45,8 @@ ISR(INT5_vect)
 int main(void)
 {	
 	// Klargøring af porte
-	DDRE &= 0b11001111; // Port E, pin 4 og 5 er input
-	DDRB = 0xFF; // Port B er sat til output
+	DDRE &= 0b11001111;		// Port E, pin 4 og 5 er input
+	DDRB = 0xFF;			// Port B er sat til output
 	
 	// Interrupt enable og initiering
 	EIMSK |= 0b00111100;	//INT2, INT3, INT4 og INT5 interrupt enable
@@ -66,36 +66,34 @@ int main(void)
 	
 	while(quitBtn != -1)
 	{	
-		// Variable og funktioner klargøres
-		statusCounter = 0; // statusCounter bestemmer bilens 'case'
-		btnStatus = 0; // btnStatus styrer om bilen skal gå i tomgang, køre eller lave et reset
-		
+		// Variabler og led initialiseres
+		statusCounter = 0;
+		btnStatus = 0;
 		led.initLED();
 	
+		// Giver tegn til at bilen kan køre
 		startBil();
 
-		//Bestemmer hvilken case bilen er i
-
-		// Sørger for, at koden forbliver i loopet, indtil reset knappen er aktiveret (btnStatus går fra 1 til 2) - med mindre alle cases er kørt i carControl
+		// While loopet stoppe ved restart, carControl er færdig eller brugeren bruger quit
 		while (btnStatus < 2 && statusCounter != -1 && quitBtn != -1) 
 		{
-			// Sørger for, at SW2 aktiverer algoritmen (btnStatus går fra 0 til 1) - sensorCounter bliver reinitieret
+			// Sørger for, at SW2 aktiverer algoritmen
 			if (btnStatus == 1 && statusCounter == 0) 
 				sensorStatus = 0;
 			
-			// Algoritmen køre næste 'case' når sensorCounter bliver lig med statusCounter
+			// carControl kaldes når interrupt sætter sensorStatus til sensorCounter
 			if (sensorStatus == statusCounter && btnStatus == 1) 
-			{
+			{	
+				// carControl bliver kaldt til at udføre givende case
 				// sensorStatus får en incrementeret værdi fra carControl, så næste stadie køres
 				statusCounter = carControl(sensorStatus, &carMotor, &led);
 			}
 		}
 		// Deinitialize - restart bil
-		// if sætning, så vi sikre os restart, kun ved de specifikke betingelser 
 		if (statusCounter == -1 || btnStatus > 1 || quitBtn == -1) {
 			restartBil(&carMotor, &led);
 			
-			// afslutter program
+			// terminere programmet
 			if (quitBtn == -1)
 				stopBil();	
 		}			
