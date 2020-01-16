@@ -3,6 +3,7 @@
 * Implementation file for Mega2560 UART driver. *
 * Using UART 0.                                 *
 * Henning Hargaard, 8/4 2019                    *
+* Redigeret til brug i PRJ1: Rasmus				*
 *************************************************/
 #include <avr/io.h>
 #include <stdlib.h>

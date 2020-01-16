@@ -1,21 +1,15 @@
-/*
- * carControl.cpp
- *
- * Created: 22-11-2019 10:05:55
- *  Author: andre
- */ 
-
-// SENSOR_DELAY sørger for, at kun en sensor aktiveres, ved forbikørsel af reflexbrik
+/*======================================================================== 
+FILENAME	: carControl.cpp 
+CREATED		: 22-11-2019 10:05:55 
+AUTHOR		: Andreas og Anders
+DESCR.		: Styrer hvad der skal ske med motor, lyd og lys, hver gang en sensor mødes på banen
+==========================================================================*/
 #include "carControl.h"
 #define SENSOR_DELAY 500
 #define START_LYD 1
 #define REFLEKS_LYD1 2
 #define REFLEKS_LYD2 3
 #define SLUT_LYD 4
-/*
-Følgende funktion (carControl) bestemmer, ved at main() sender sensorStatus videre, som bestemmer hvilken case der skal køres
-Algoritmen for sensorCounter til at incrementere efter case. Ved næste interrupt i main.cpp, vil carControl blive aktiveret, nu med den nye sensorStatus værdi.
-*/
 
 char carControl(char status, Motor* motor, Led* led) {
 	
@@ -23,7 +17,6 @@ char carControl(char status, Motor* motor, Led* led) {
 	
 	switch(status)
 	{
-		
 		//Bil begynder at køre
 		case 0: 
 			
@@ -39,26 +32,26 @@ char carControl(char status, Motor* motor, Led* led) {
 			playTrack(REFLEKS_LYD1);
 			motor->setSpeed(220);
 			break;
-		//Before Hill
-		case 2: //reflexbrik 2
+		
+		case 2: //reflexbrik 2 - Before Hill
 			
 			playTrack(REFLEKS_LYD2);
 			motor->setSpeed(230);
 			break;
-		//On hill
-		case 3: //reflexbrik 3
+		
+		case 3: //reflexbrik 3 - On hill
 			
 			playTrack(REFLEKS_LYD1);
 			motor->setSpeed(100);
 			break;
-		//After hill
-		case 4: //reflexbrik 4
+		
+		case 4: //reflexbrik 4 - After hill
 			
 			playTrack(REFLEKS_LYD2);
 			motor->setSpeed(255);
 			break;
 			
-		case 5: //reflexbrik 5 - Siger lyd
+		case 5: //reflexbrik 5
 			
 			playTrack(REFLEKS_LYD1);
 			motor->setSpeed(110);
@@ -76,7 +69,7 @@ char carControl(char status, Motor* motor, Led* led) {
 			motor->setSpeed(150);
 			break;
 			
-		case 7: //reflexbrik 6 igen - Lyd
+		case 7: //reflexbrik 6 igen
 			
 			playTrack(REFLEKS_LYD1);
 			motor->setSpeed(110);
@@ -92,27 +85,26 @@ char carControl(char status, Motor* motor, Led* led) {
 			motor->setSpeed(140);
 			break;
 			
-		case 9: //reflexbrik 5 igen - Køre frem igen
-				
+		case 9: //reflexbrik 5 igen
+		
 			motor->setSpeed(240);
 			playTrack(REFLEKS_LYD1);
 			break;
 		
-		case 10: //reflexbrik 6 igen - siger lyd
-						
+		case 10: //reflexbrik 6 igen
+					
 			playTrack(REFLEKS_LYD2);
 			motor->setSpeed(200);
 			break;
 		
 		case 11: //reflexbrik 7 - Bil stopper
-			
+
 			playTrack(SLUT_LYD);
 			motor->setSpeed(0);
 			break;
-		
 	}
 	
-	_delay_ms(SENSOR_DELAY);
+	_delay_ms(SENSOR_DELAY);		//sensor aktiveres kun, ved forbikørsel af reflexbrik
 	
 	if (status == 11) {
 		status = -1;
@@ -121,7 +113,7 @@ char carControl(char status, Motor* motor, Led* led) {
 		
 	else
 		status++;
-		
+
 	return status;
 		
 }

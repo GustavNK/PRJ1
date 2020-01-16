@@ -1,25 +1,12 @@
-/* 
-* light.cpp
-*
-* Created: 28-10-2019 12:08:01
-* Author: Rasmus
-*/
-
-// PORTB location for Arduino
-// PB0 - 53 DIGITAL
-// PB1 - 52 DIGITAL
-// PB2 - 51 DIGITAL
-// PB3 - 50 DIGITAL
-// PB4 - 23 PWM
-// PB5 - 24 PWM
-// PB6 - 25 PWM
-// PB7 - 26 PWM
-// 500 mA is max current when using USB port for power supply
-
-// 1023 = TOP af PWM 10bit
-// Hvis ORC1n = 1023 er LED slukket
-// Hvis ORC1n = meget lille tal f.eks. 0.1 er det tændt
-
+/*========================================================================
+FILENAME	: light.cpp
+CREATED		: 28-10-2019 12:08:01
+AUTHOR		: Simon og Shyn
+DESCR.		: Styrer hvor kraftigt lyset skal lyse
+				1023 = TOP af PWM 10bit
+				Hvis ORC1n = 1023 er LED slukket
+				Hvis ORC1n = meget lille tal f.eks. 0.1 er det tændt
+==========================================================================*/
 #include <avr/io.h>
 #define MAX_LED_NR 7
 #include "light.h"
@@ -53,8 +40,7 @@ void Led::initLED()
 	OCR4C = 1023;
 }
 
-void Led::backLight(unsigned char duty_cycle)
-{
+void Led::backLight(unsigned char duty_cycle){
 	// PH4
 	if (duty_cycle >= 1 && duty_cycle <= 100)
 	{
@@ -63,7 +49,6 @@ void Led::backLight(unsigned char duty_cycle)
 
 	else if (duty_cycle == 0)
 	OCR4B = 1023;
-	
 }
 
 void Led::frontLight(unsigned char duty_cycle)
@@ -76,5 +61,4 @@ void Led::frontLight(unsigned char duty_cycle)
 	
 	else if (duty_cycle == 0)
 		OCR4C = 1023;
-	
 }

@@ -1,19 +1,18 @@
-/*
- * motorController.h
- *
- * Created: 28-10-2019 12:06:50
- *  Author: Gustav
- */ 
-
-
+/*========================================================================
+FILENAME	: Motor.h
+CREATED		: 28-10-2019 12:06:50
+AUTHOR		: Deceleration of motor controller 
+==========================================================================*/
 #ifndef MOTORCONTROLLER_H_
 #define MOTORCONTROLLER_H_
-class Motor{
+
+class Motor
+{
 public:
-	explicit Motor();   //Initiates motor driver  No arguments should be given  speed=PE3(OC3A) dir=PC0
-	void setSpeed(unsigned char speed);	  //Set PWM on motor speed controller between 0-255
+	explicit Motor();								//Initiates motor driver
+	void setSpeed(unsigned char speed);				//Set PWM on motor speed controller between 0-255
 	unsigned char getSpeed() const;
-	void setDirection(unsigned char direction);   // set direction of motor. Controlles H-bridge
+	void setDirection(unsigned char direction);		//Set direction of motor. Controlles the H-bridge
 	unsigned char getDirection() const;
 private:
 	unsigned char speed_;
@@ -21,4 +20,5 @@ private:
 	unsigned char dir_;
 	unsigned char dirPin_;
 };
+
 #endif /* MOTORCONTROLLER_H_ */

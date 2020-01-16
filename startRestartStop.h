@@ -1,11 +1,9 @@
-/*
- * startRestartEnd.h
- *
- * Created: 04-01-2020 11:10:33
- *  Author: andre
- */ 
-
-
+/*========================================================================
+FILENAME	: startRestartEnd.h
+CREATED		: 04-01-2020 11:10:33
+AUTHOR		: Andreas
+DESCR.		: Methods for funktioner til at styre bilens genstart funktioner
+==========================================================================*/
 #ifndef STARTRESTARTEND_H_
 #define STARTRESTARTEND_H_
 #define F_CPU 16000000

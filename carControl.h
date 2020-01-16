@@ -1,3 +1,9 @@
+/*========================================================================
+FILENAME	: carControl.h
+CREATED		: 22-11-2019 10:06:12
+AUTHOR		: Andreas og Anders
+DESCR.		: Method for carControl(), som styrer det meste af bilen
+==========================================================================*/
 /*
  * carControl.h
  *

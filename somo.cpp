@@ -1,13 +1,14 @@
-/*
- * somo.c
- *
- * Created: 06-12-2019 11:09:26
- *  Author: Rasmus
- */ 
+/*========================================================================
+FILENAME	: somo.cpp
+CREATED		: 06-12-2019 11:09:26
+AUTHOR		: Simon og Shyn
+DESCR.		: Sends funktions through the UART to SOMO-II
+==========================================================================*/
 #include "somo.h"
 #include "uart.h"
 
-void playSource(){
+void playSource()
+{
 	SendChar(0x7E);
 	SendChar(0x09);
 	SendChar(0x00);
@@ -18,7 +19,8 @@ void playSource(){
 	SendChar(0xEF);
 }
 
-void playTrack(unsigned char tracknr){
+void playTrack(unsigned char tracknr)
+{
 	SendChar(0x7E);
 	SendChar(0x03);
 	SendChar(0x00);
@@ -29,7 +31,8 @@ void playTrack(unsigned char tracknr){
 	SendChar(0xEF);
 }
 
-void reset(){
+void reset()
+{
 	SendChar(0x7E);
 	SendChar(0x0C);
 	SendChar(0x00);
@@ -40,7 +43,8 @@ void reset(){
 	SendChar(0xEF);
 }
 
-void setVol(unsigned char vol){
+void setVol(unsigned char vol)
+{
 	if(vol < 0x01 || vol > 0x1E){ // Checks if vol is inside acceptable range
 		vol = 5; // standard value
 	}

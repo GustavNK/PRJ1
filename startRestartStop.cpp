@@ -1,10 +1,9 @@
-/*
- * startRestartEnd.cpp
- *
- * Created: 04-01-2020 11:10:21
- *  Author: andre
- */ 
-
+/*========================================================================
+FILENAME	: startRestartEnd.cpp
+CREATED		: 04-01-2020 11:10:21
+AUTHOR		: Andreas
+DESCR.		: Laver et "lysshow" på PORTB, og kan starte/stoppe/restarte bilens tilstand
+==========================================================================*/
 #include "startRestartStop.h"
 
 void startBil() {
@@ -26,7 +25,6 @@ void startBil() {
 	}
 
 	PORTB = 12;
-	
 }
 
 void restartBil (Motor* motor, Led* led) {
@@ -57,24 +55,12 @@ void restartBil (Motor* motor, Led* led) {
 			h++;
 			i = 0;
 		}
-		_delay_ms(100);
-				
+		_delay_ms(100);			
 	}
-	
-	/*for (i = 0, q = 170; i < 4; i++) {
-		if (i == 2) {
-			reset();
-		}
-		
-		PORTB = q;		_delay_ms(150);
-		q = ~q;
-		PORTB = 0;		_delay_ms(150);
-	}*/
 }
 
 void stopBil() {
 	char n, i= 0;
-	
 	
 	for (n = 0; n < 44; n++ && i++) {
 		
@@ -107,6 +93,5 @@ void LEDCounter(char status) {
 	else if (status > 7){
 		PORTB = (1 << (status - 8));
 		PORTB |= (1 << (status - 4));
-	}
-			
+	}	
 }	

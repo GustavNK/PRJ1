@@ -1,10 +1,9 @@
-/*
- * Motor.cpp
- *
- * Created: 28-10-2019 12:07:24
- *  Author: Gustav
- */ 
-
+/*========================================================================
+FILENAME	: Motor.cpp
+CREATED		: 28-10-2019 12:07:24
+AUTHOR		: Gustav
+DESCR.		: Controlls the direction and speed of the brushmotor.
+==========================================================================*/
 #include "motor.h"
 #include <avr/io.h>
 
@@ -13,7 +12,8 @@
 #define dirPortReg DDRJ
 #define dirPort PORTJ
 
-Motor :: Motor(){
+Motor :: Motor()
+{
 	//Set class variables to default
 	speedPin_ = 3;	//PE3(OC3A)
 	dirPin_ = 1;	//PJ1
@@ -29,8 +29,9 @@ Motor :: Motor(){
 	setSpeed(speed_);
 }
 
-void Motor :: setSpeed(unsigned char s){	//Set PWM on motor speed controller between 0(off) - 255
-	//set new speed
+void Motor :: setSpeed(unsigned char s)
+{	
+	//Set PWM on motor speed controller between 0(off) - 255(maks)
 	if( 0 > s || 255 < s ){
 		speed_ = 0;							//set speed 0, if speed not correct
 	}
@@ -46,15 +47,18 @@ void Motor :: setSpeed(unsigned char s){	//Set PWM on motor speed controller bet
 	OCR3A = speed_;
 }
 
-unsigned char Motor :: getSpeed() const{
+unsigned char Motor :: getSpeed() const
+{
 	return speed_;
 }
 	  
-void Motor :: setDirection(unsigned char dir){
+void Motor :: setDirection(unsigned char dir)
+{
 	dir_ = (dir == 0) ? 0 : 1;
 	dirPort = (dir_ << dirPin_);
 }
 
-unsigned char Motor :: getDirection() const{
+unsigned char Motor :: getDirection() const
+{
 	return dir_;
 }
